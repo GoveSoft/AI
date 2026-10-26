@@ -1,0 +1,32 @@
+--- a/src/Orders/OrdersExportEndpoint.cs
++++ b/src/Orders/OrdersExportEndpoint.cs
+@@ -0,0 +1,32 @@
++public sealed class OrdersExportEndpoint
++{
++    private readonly AppDbContext _db;
++    private readonly ILogger<OrdersExportEndpoint> _logger;
++
++    public OrdersExportEndpoint(AppDbContext db, ILogger<OrdersExportEndpoint> logger)
++    {
++        _db = db;
++        _logger = logger;
++    }
++
++    public async Task<IResult> Handle(string customerId)
++    {
++        var orders = await _db.Orders
++            .FromSqlRaw("SELECT * FROM Orders WHERE CustomerId = '" + customerId + "'")
++            .ToListAsync();
++
++        LogExport(customerId, orders.Count);
++
++        var csv = string.Join("\n", orders.Select(o => $"{o.Id};{o.Total}"));
++        return Results.Text(csv, "text/csv");
++    }
++
++    private async void LogExport(string customerId, int count)
++    {
++        await Task.Yield();
++        _logger.LogInformation($"Export {count} objednávek zákazníka {customerId}");
++    }
++}

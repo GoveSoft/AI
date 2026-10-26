@@ -1,0 +1,12 @@
+{
+  "name": "govesoft",
+  "version": "1.0.0",
+  "description": "Agentní vývoj GoveSoft: /manager (plán s AC, vývojář → reviewer ∥ tester → ui-ux, commit), /navrh (dva nezávislé návrhy), subagenti a ochranné hooky.",
+  "author": {
+    "name": "GoveSoft",
+    "url": "https://govesoft.com"
+  },
+  "homepage": "https://github.com/govesoft/ai",
+  "repository": "https://github.com/govesoft/ai",
+  "keywords": ["agents", "code-review", "workflow", "dotnet", "govesoft"]
+}

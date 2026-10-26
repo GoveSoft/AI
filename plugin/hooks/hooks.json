@@ -1,0 +1,16 @@
+{
+  "description": "Ochranné hooky GoveSoft. Konfigurace: ~/.claude/hooks/hooks-config.json (uživatel) a <projekt>/.claude/hooks-config.json (projekt).",
+  "hooks": {
+    "PreToolUse": [
+      { "matcher": "Bash", "hooks": [{ "type": "command", "command": "pwsh -NoProfile -NonInteractive -ExecutionPolicy Bypass -File \"${CLAUDE_PLUGIN_ROOT}/hooks/guard-bash.ps1\"" }] },
+      { "matcher": "Write|Edit|NotebookEdit", "hooks": [{ "type": "command", "command": "pwsh -NoProfile -NonInteractive -ExecutionPolicy Bypass -File \"${CLAUDE_PLUGIN_ROOT}/hooks/guard-write.ps1\"" }] }
+    ],
+    "SubagentStop": [
+      { "matcher": "(.*:)?vyvojar", "hooks": [{ "type": "command", "command": "pwsh -NoProfile -NonInteractive -ExecutionPolicy Bypass -File \"${CLAUDE_PLUGIN_ROOT}/hooks/build-on-stop.ps1\"", "timeout": 300 }] },
+      { "hooks": [{ "type": "command", "command": "pwsh -NoProfile -NonInteractive -ExecutionPolicy Bypass -File \"${CLAUDE_PLUGIN_ROOT}/hooks/cleanup.ps1\"" }] }
+    ],
+    "Stop": [
+      { "hooks": [{ "type": "command", "command": "pwsh -NoProfile -NonInteractive -ExecutionPolicy Bypass -File \"${CLAUDE_PLUGIN_ROOT}/hooks/cleanup.ps1\"" }] }
+    ]
+  }
+}

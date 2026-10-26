@@ -1,0 +1,6 @@
+[
+  { "name": "běžný zdrojový soubor",  "path": "C:\\dev\\app\\src\\Orders\\Order.cs",                    "expect": "allow" },
+  { "name": "migrace",                "path": "C:\\dev\\app\\src\\Infrastructure\\Migrations\\001_Init.cs", "expect": "deny", "reason": "Migrace" },
+  { "name": "generované app.css",     "path": "/home/dev/app/wwwroot/css/app.css",                       "expect": "deny", "reason": "input.css" },
+  { "name": "input.css projde",       "path": "/home/dev/app/wwwroot/css/input.css",                     "expect": "allow" }
+]

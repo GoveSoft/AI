@@ -1,0 +1,17 @@
+{
+  "name": "govesoft",
+  "owner": {
+    "name": "GoveSoft",
+    "url": "https://govesoft.com"
+  },
+  "metadata": {
+    "description": "Interní nástroje GoveSoft pro práci s AI v Claude Code."
+  },
+  "plugins": [
+    {
+      "name": "govesoft",
+      "source": "./plugin",
+      "description": "Agentní vývoj s lidskými branami: /manager, /navrh, subagenti a ochranné hooky."
+    }
+  ]
+}

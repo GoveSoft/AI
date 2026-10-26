@@ -1,0 +1,24 @@
+# <Projekt>
+
+<!-- Vygenerujte skillem claude-md (plugin govesoft), ne ručně. Max ~60 řádků.
+     Každý řádek musí projít testem „Udělal by agent bez něj chybu?“. Prázdnou sekci smažte. -->
+
+## Příkazy
+
+- Build: `<příkaz>`
+- Testy: `<příkaz>` · jeden test: `<příkaz>`
+- Lint / format: `<příkaz>`
+
+## Pravidla
+
+- <imperativní pravidlo, které z kódu není vidět>
+
+## Pasti
+
+- <na co se nesahá a proč>
+
+## Kontext
+
+- Standardy: @<cesta-k-repu>/standards/backend/csharp/index.md
+- Profil pro agenty: `.claude/agentic/profil.md`
+- Architektonická rozhodnutí: `docs/adr/` (číst před architektonickou změnou)

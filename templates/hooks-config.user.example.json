@@ -1,0 +1,38 @@
+{
+  "_comment": "Uzivatelska konfigurace hooku. Umisteni: ~/.claude/hooks/hooks-config.json. Plati pro vsechny projekty; projektovy soubor <projekt>/.claude/hooks-config.json ji doplnuje.",
+  "denyCommands": [
+    {
+      "pattern": "(?<![\\w.\\-/\\\\])(python|python3|py|pip|pip3|node|npm|npx|yarn|pnpm|bun|deno)(?![\\w.\\-])",
+      "message": "Zakazany runtime. Pouzij dotnet script (.csx) nebo pwsh -NoProfile -NonInteractive -File."
+    },
+    {
+      "pattern": "(?<![\\w.\\-/\\\\])powershell(\\.exe)?(?![\\w.\\-])",
+      "message": "Pouzivej pwsh (PowerShell 7), ne powershell (Windows PowerShell 5.1). Vzdy s -NoProfile -NonInteractive -File."
+    },
+    {
+      "pattern": "(?<![\\w.\\-/\\\\])git\\s+push(?![\\w.\\-])",
+      "message": "Push a merge dela jen clovek (governance/human-in-the-loop.md). Zmeny nech commitnute lokalne a napis uzivateli, ze je muze pushnout."
+    },
+    {
+      "pattern": "dotnet\\s+user-secrets\\s+list",
+      "message": "Vypis secrets je zakazany (governance/data-handling.md). Pokud potrebujes vedet, ktere klice existuji, zeptej se uzivatele."
+    },
+    {
+      "pattern": "(?<![\\w.\\-/\\\\])(cat|type|less|more|bat|Get-Content|gc)\\s+(\\S*[/\\\\])?\\.env(?!\\.example)(\\.[\\w-]+)?(?![\\w.\\-])",
+      "message": "Cteni .env je zakazane (governance/data-handling.md). Sablonu promennych najdes v .env.example."
+    },
+    {
+      "pattern": "(?<![\\w.\\-/\\\\])printenv(?![\\w.\\-])",
+      "message": "Vypis promennych prostredi muze obsahovat secrets. Over jen konkretni promennou, ktera neni tajna, nebo se zeptej uzivatele."
+    }
+  ],
+  "longRunning": [],
+  "allowPatterns": [],
+  "disableRules": [],
+  "cleanup": {
+    "dryRun": true,
+    "scannerMaxAgeMinutes": 2,
+    "scannerNames": [],
+    "protectCommandPatterns": []
+  }
+}

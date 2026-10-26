@@ -1,0 +1,10 @@
+# Vlastníci oblastí – schvalují PR, které se jich týkají.
+# Nahraďte týmy skutečnými GitHub týmy organizace govesoft.
+
+*                 @govesoft/ai-maintainers
+/governance/      @govesoft/management
+/MATURITY.md      @govesoft/management
+/plugin/          @govesoft/ai-maintainers
+/plugin/hooks/    @govesoft/ai-maintainers @govesoft/security
+/standards/       @govesoft/tech-leads
+/evidence/        @govesoft/management @govesoft/ai-maintainers
