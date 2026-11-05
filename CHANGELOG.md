@@ -2,6 +2,23 @@
 
 Formát podle [Keep a Changelog](https://keepachangelog.com/cs/1.1.0/), verze pluginu podle [SemVer](https://semver.org/lang/cs/). Verze = `version` v [plugin/.claude-plugin/plugin.json](plugin/.claude-plugin/plugin.json).
 
+## [1.0.1] – 2026-11-05
+
+### Opraveno
+
+- Úklid procesů má bezpečný výchozí režim `dryRun`, vyžaduje konkrétní existující adresář projektu a při vadné konfiguraci nic neukončuje. Skenery mimo doložený kontext projektu a skenery se stále běžícím rodičem ponechává běžet.
+- Build hook při poškozené konfiguraci, neplatném příkazu nebo chybě spuštění vrací blokující chybu místo tichého přeskočení. Pro buildy bez formátu chyb MSBuild vrací také konec logu.
+- Ochrana zápisu vyhodnocuje relativní cesty vůči `cwd` události, případně kořeni projektu, a normalizuje segmenty `.` a `..` před kontrolou chráněných cest.
+- Ochranné hooky při neplatném vstupu, poškozené konfiguraci a vadných regulárních výrazech odmítají operaci s vysvětlením.
+
+### Přidáno
+
+- Regresní testy chybových stavů, buildu a bezpečného úklidu se simulovanými procesy; rozšíření původních případů o relativní cesty.
+
+### Upřesněno
+
+- Dokumentace rozlišuje kontrolu zachycených operací hookem od izolace oprávnění a uvádí podmínky aktivace. README odděluje existující nástroje od dosud nevyplněné evidence výsledků.
+
 ## [1.0.0] – 2026-10-26
 
 ### Přidáno

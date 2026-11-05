@@ -14,29 +14,30 @@
 
 $ErrorActionPreference = 'Stop'
 
-try {
-    $in = [Console]::In.ReadToEnd() | ConvertFrom-Json
-} catch {
-    exit 0
-}
-
-$cmd = $in.tool_input.command
-if ([string]::IsNullOrWhiteSpace($cmd)) { exit 0 }
-
-$bg = $false
-if ($null -ne $in.tool_input.run_in_background) {
-    $bg = [bool]$in.tool_input.run_in_background
-}
-
 function Deny([string]$msg) {
     @{
         hookSpecificOutput = @{
-            hookEventName            = 'PreToolUse'
-            permissionDecision       = 'deny'
+            hookEventName = 'PreToolUse'
+            permissionDecision = 'deny'
             permissionDecisionReason = $msg
         }
     } | ConvertTo-Json -Depth 5 -Compress
     exit 0
+}
+
+try {
+    $in = [Console]::In.ReadToEnd() | ConvertFrom-Json -NoEnumerate
+    if ($null -eq $in -or $in.GetType() -ne [System.Management.Automation.PSCustomObject]) { throw 'Vstup musi byt JSON objekt.' }
+} catch {
+    Deny 'Neplatny JSON vstup hooku. Prikaz nebyl povolen.'
+}
+
+$cmd = $in.tool_input.command
+if ([string]::IsNullOrWhiteSpace($cmd)) { Deny 'Chybi prikaz. Prikaz nebyl povolen.' }
+
+$bg = $false
+if ($null -ne $in.tool_input.run_in_background) {
+    $bg = [bool]$in.tool_input.run_in_background
 }
 
 function Get-Prop($obj, [string]$name) {
@@ -48,7 +49,20 @@ function Get-Prop($obj, [string]$name) {
 function Read-Config([string]$path) {
     if ([string]::IsNullOrWhiteSpace($path)) { return $null }
     if (-not (Test-Path $path)) { return $null }
-    try { return (Get-Content $path -Raw -Encoding UTF8 | ConvertFrom-Json) } catch { return $null }
+    try {
+        $cfg = Get-Content -LiteralPath $path -Raw -Encoding UTF8 | ConvertFrom-Json -NoEnumerate
+        if ($null -eq $cfg -or $cfg.GetType() -ne [System.Management.Automation.PSCustomObject]) { throw 'Konfigurace musi byt JSON objekt.' }
+        # Overit vsechny regexy pred allowPatterns: ani vyjimka nema prekryt vadnou konfiguraci.
+        foreach ($key in 'allowPatterns', 'longRunning') {
+            foreach ($pattern in @(Get-Prop $cfg $key)) {
+                if ($null -ne $pattern) { [void][regex]::new($pattern) }
+            }
+        }
+        foreach ($rule in @(Get-Prop $cfg 'denyCommands')) {
+            if ($rule.pattern) { [void][regex]::new($rule.pattern) }
+        }
+        return $cfg
+    } catch { Deny "Neplatna konfigurace hooku: $path. Oprav ji pred dalsim prikazem." }
 }
 
 # --- nacteni konfigurace -----------------------------------------

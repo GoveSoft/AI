@@ -41,7 +41,7 @@ New-Item -ItemType Directory -Force $HOME\.claude\hooks | Out-Null
 Copy-Item templates\hooks-config.user.example.json $HOME\.claude\hooks\hooks-config.json
 ```
 
-`cleanup.ps1` má výchozí `"dryRun": true` – nejdřív jen loguje do `.scratch/cleanup.log`. Ostrý režim zapněte, až log projdete.
+`cleanup.ps1` má i bez konfigurace výchozí `dryRun: true` – nejdřív jen loguje kandidáty do `.scratch/cleanup.log`. Ukončování vyžaduje explicitní JSON boolean `"dryRun": false`. Bez konkrétního existujícího adresáře projektu nebo při vadné konfiguraci nic neukončuje. Skenery kontroluje jen s doloženou absolutní cestou projektu v příkazu a bez běžícího rodiče. Samotné stáří procesu nedokazuje, že je zapomenutý; ostrý režim zapněte až po kontrole logu.
 
 > **Ověřit při první instalaci:** příkazy z pluginu mohou být dostupné i jako `/govesoft:manager` a subagenti pod jménem `govesoft:vyvojar`. Matcher `SubagentStop` je proto napsaný jako `(.*:)?vyvojar`, aby fungoval s prefixem i bez něj. Po instalaci zkontrolujte `/agents` a že se po vývojáři spustí build.
 
@@ -66,6 +66,10 @@ Hooky pak zaregistrovat v `~/.claude/settings.json` – stejný obsah jako [hook
 4. [templates/claude-settings.project.json](../templates/claude-settings.project.json) → `.claude/settings.json` (zákaz čtení souborů se secrets; povinné pro soukromé účty).
 
 Projektový `.claude/agents/<jméno>.md` přebíjí globálního agenta – projektová specifika proto nepište do kopií agentů, ale do profilu, jinak se firemní opravy nepropíšou.
+
+Chybějící konfigurační soubor je volitelný. Existující poškozený soubor ale nesmí ochranu tiše vypnout: `guard-bash` a `guard-write` odmítnou operaci a `build-on-stop` vrátí blokující chybu. Opravte konfiguraci a operaci opakujte. `buildOnStop` musí být neprázdné pole řetězců s názvem externího programu a argumenty.
+
+Hooky kontrolují vybrané nástroje a textové vzory; jejich omezení a další vrstvy ochrany popisují [lidské brány](../governance/human-in-the-loop.md#rozsah-technických-kontrol).
 
 ## Použití
 

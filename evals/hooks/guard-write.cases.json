@@ -2,5 +2,8 @@
   { "name": "běžný zdrojový soubor",  "path": "C:\\dev\\app\\src\\Orders\\Order.cs",                    "expect": "allow" },
   { "name": "migrace",                "path": "C:\\dev\\app\\src\\Infrastructure\\Migrations\\001_Init.cs", "expect": "deny", "reason": "Migrace" },
   { "name": "generované app.css",     "path": "/home/dev/app/wwwroot/css/app.css",                       "expect": "deny", "reason": "input.css" },
-  { "name": "input.css projde",       "path": "/home/dev/app/wwwroot/css/input.css",                     "expect": "allow" }
+  { "name": "input.css projde",       "path": "/home/dev/app/wwwroot/css/input.css",                     "expect": "allow" },
+  { "name": "relativni migrace", "path": "Migrations/001_Init.cs", "expect": "deny", "reason": "Migrace" },
+  { "name": "migrace pres teckove segmenty", "path": "src/../Migrations/001_Init.cs", "expect": "deny", "reason": "Migrace" },
+  { "name": "bezny relativni soubor", "path": "src/Orders/Order.cs", "expect": "allow" }
 ]

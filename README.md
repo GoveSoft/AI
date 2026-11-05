@@ -1,6 +1,6 @@
 # GoveSoft AI Engineering
 
-Jak ve [GoveSoft](https://govesoft.com) vyvíjíme software s AI: pravidla používání, kódové standardy, nástroje pro Claude Code a doklady, že proces funguje.
+Jak ve [GoveSoft](https://govesoft.com) navrhujeme a ověřujeme vývoj softwaru s AI: pravidla používání, kódové standardy, nástroje pro Claude Code a evidence výsledků.
 
 Repozitář slouží dvěma účelům:
 
@@ -29,12 +29,16 @@ Repozitář slouží dvěma účelům:
 
 Pak v projektu: vyplnit profil a konfiguraci hooků podle [plugin/README.md](plugin/README.md), vygenerovat `CLAUDE.md` skillem `claude-md` a naimportovat potřebné sady ze [standards/](standards/). Celý postup je v [workflows/onboarding.md](workflows/onboarding.md), nasazení na existující projekt krok za krokem v [workflows/first-project.md](workflows/first-project.md).
 
+## Aktuální stav
+
+Repozitář obsahuje implementované hooky s automatickými testy, definice agentů, standardy a pracovní postupy. Dokumenty governance jsou návrhy ke schválení; sebehodnocení v [MATURITY.md](MATURITY.md) je výchozí návrh. [Metriky](evidence/metrics.md) a případové studie zatím nemají vyplněné výsledky, proto repozitář sám nedokládá úsporu času ani pokles chybovosti.
+
 ## Principy
 
 - **Člověk rozhoduje, AI připravuje.** Plán, výběr návrhu, migrace, grafika, push a merge schvaluje vždy člověk.
-- **Pravidla jsou vynucená, ne jen napsaná.** Co jde vynutit technicky, vynucuje hook (zákaz migrací, chráněné cesty, build po vývojáři).
+- **Vybraná pravidla kontrolují hooky.** Zákaz konkrétních příkazů, chráněné cesty a build po vývojáři vyžadují správnou konfiguraci. Rozsah a omezení popisují [lidské brány](governance/human-in-the-loop.md).
 - **Oddělené role.** Kdo kód píše, ten ho neschvaluje: reviewer a tester ověřují vývojáře nezávisle.
-- **Měříme.** Tvrzení o přínosu AI dokládáme daty v [evidence/](evidence/).
+- **Přínos ověřujeme daty.** Definice metrik a šablony jsou v [evidence/](evidence/); naměřené hodnoty a případové studie je potřeba doplnit z reálných běhů.
 
 ## Přispívání
 

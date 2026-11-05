@@ -7,7 +7,8 @@
 # prave ted nekdo legitimne pouziva.
 #
 # Zabiji se pouze:
-#   1) osirele shellove skenery (find/grep/...) starsi nez 2 min
+#   1) osirele shellove skenery (find/grep/...) starsi nez 2 min,
+#      jejichz prikazova radka obsahuje absolutni cestu tohoto projektu
 #   2) proces, jehoz EXE lezi primo v adresari projektu (typicky bin/)
 #   3) znamy runtime spusteny nad artefaktem uvnitr projektu
 #      (napr. dotnet exec <root>/bin/App.dll)
@@ -23,7 +24,7 @@
 #   - build infrastruktura
 #   - procesy mimo adresar projektu
 #
-# Rezim nacisto: "cleanup": { "dryRun": true } v hooks-config.json
+# Vychozi rezim je vzdy nacisto. Ukoncovani vyzaduje explicitni boolean dryRun: false.
 
 $ErrorActionPreference = 'SilentlyContinue'
 
@@ -36,10 +37,21 @@ function Get-Prop($obj, [string]$name) {
 function Read-Config([string]$path) {
     if ([string]::IsNullOrWhiteSpace($path)) { return $null }
     if (-not (Test-Path $path)) { return $null }
-    try { return (Get-Content $path -Raw -Encoding UTF8 | ConvertFrom-Json) } catch { return $null }
+    try {
+        $cfg = Get-Content -LiteralPath $path -Raw -Encoding UTF8 | ConvertFrom-Json -NoEnumerate -ErrorAction Stop
+        if ($null -eq $cfg -or $cfg.GetType() -ne [System.Management.Automation.PSCustomObject]) { exit 0 }
+        return $cfg
+    } catch { exit 0 }
 }
 
 $root    = $env:CLAUDE_PROJECT_DIR
+# Bez platneho, konkretniho projektu se nesmi ani prohledavat procesy.
+if ([string]::IsNullOrWhiteSpace($root)) { exit 0 }
+try {
+    $root = (Get-Item -LiteralPath $root -ErrorAction Stop).FullName
+    if (-not (Test-Path -LiteralPath $root -PathType Container)) { exit 0 }
+    if ($root.TrimEnd([char[]]'\/') -eq [IO.Path]::GetPathRoot($root).TrimEnd([char[]]'\/')) { exit 0 }
+} catch { exit 0 }
 $userCfg = Read-Config (Join-Path $HOME '.claude/hooks/hooks-config.json')
 $projCfg = $null
 if (-not [string]::IsNullOrWhiteSpace($root)) {
@@ -65,9 +77,13 @@ function CfgArray([string]$key, [array]$default) {
     return ($default + $out)
 }
 
-$dryRun       = [bool](Cfg 'dryRun' $false)
+$dryRunValue  = Cfg 'dryRun' $true
+$dryRun       = ($dryRunValue -isnot [bool]) -or $dryRunValue
 $scanMinAge   = [int](Cfg 'scannerMaxAgeMinutes' 2)
 $projMinAge   = [int](Cfg 'projectMinAgeMinutes' 15)
+$rootNorm     = ($root -replace '\\', '/').TrimEnd('/').ToLowerInvariant()
+# Cesta musi tvorit samostatny argument nebo jeho zacatek, ne substring cizi cesty.
+$projectArgRx = '(?:^|[\s"''=])' + [regex]::Escape($rootNorm) + '(?=[/\s"'']|$)'
 
 # --- ochranny seznam podle jmena procesu -------------------------
 $protectedNames = CfgArray 'protectNames' @(
@@ -106,14 +122,17 @@ $ideParents = CfgArray 'protectParentNames' @(
 $ideParentRx = '^(' + (($ideParents | ForEach-Object { [regex]::Escape($_) }) -join '|') + ')\.exe$'
 
 $killed = @()
+$handledPids = [Collections.Generic.HashSet[int]]::new()
 
 function Try-Kill($proc, [string]$reason) {
+    if ($handledPids.Contains([int]$proc.ProcessId)) { return }
     if ($protectedPids.Contains([int]$proc.ProcessId)) { return }
     if ($proc.Name -match $protectRx) { return }
     if ($proc.CommandLine    -and ($proc.CommandLine    -match $protectCmd)) { return }
     if ($proc.ExecutablePath -and ($proc.ExecutablePath -match $protectCmd)) { return }
     $parent = Get-CimInstance Win32_Process -Filter "ProcessId=$($proc.ParentProcessId)"
     if ($parent -and ($parent.Name -match $ideParentRx)) { return }
+    if ($reason -eq 'orphan-scanner' -and $parent) { return }
 
     $ageMin = [int]((Get-Date) - $proc.CreationDate).TotalMinutes
 
@@ -125,30 +144,29 @@ function Try-Kill($proc, [string]$reason) {
     if ($dryRun) { $prefix = 'DRY-RUN would kill' }
 
     $script:killed += "$prefix  [$reason] $($proc.Name) PID=$($proc.ProcessId) age=${ageMin}m :: $desc"
+    [void]$handledPids.Add([int]$proc.ProcessId)
 
     if (-not $dryRun) { Stop-Process -Id $proc.ProcessId -Force }
 }
 
-# --- 1) osirele shellove skenery (globalne) ----------------------
+# --- 1) osirele shellove skenery s dolozenou cestou projektu -----
 $scanners = CfgArray 'scannerNames' @('find', 'grep', 'egrep', 'fgrep', 'sed', 'awk')
 $scanRx   = '^(' + ($scanners -join '|') + ')\.exe$'
 
 Get-CimInstance Win32_Process |
     Where-Object {
         $_.Name -match $scanRx -and
+        $_.CommandLine -and
+        (($_.CommandLine -replace '\\', '/').ToLowerInvariant() -match $projectArgRx) -and
         $_.CreationDate -lt (Get-Date).AddMinutes(-1 * $scanMinAge)
     } |
     ForEach-Object { Try-Kill $_ 'orphan-scanner' }
-
-# --- bez znameho projektu koncime --------------------------------
-if ([string]::IsNullOrWhiteSpace($root) -or (-not (Test-Path $root))) { exit 0 }
 
 $logDir = Join-Path $root '.scratch'
 if (-not (Test-Path $logDir)) { New-Item -ItemType Directory -Path $logDir -Force | Out-Null }
 $log   = Join-Path $logDir 'cleanup.log'
 $stamp = Get-Date -Format 'yyyy-MM-dd HH:mm:ss'
 
-$rootNorm  = ($root -replace '\\', '/').TrimEnd('/').ToLowerInvariant()
 $projCutoff = (Get-Date).AddMinutes(-1 * $projMinAge)
 
 # --- 2) EXE lezici primo v adresari projektu ---------------------
@@ -162,7 +180,7 @@ Get-CimInstance Win32_Process |
 
 # --- 3) znamy runtime nad artefaktem uvnitr projektu -------------
 $runtimeRx  = '^(dotnet|node|python|python3|java|ruby|php|go)\.exe$'
-$artifactRx = [regex]::Escape($rootNorm) + '[^\s"]*\.(dll|exe|js|mjs|cjs|py|jar|rb|php)\b'
+$artifactRx = '(?:^|[\s"''])' + [regex]::Escape($rootNorm) + '/[^\s"'']*\.(dll|exe|js|mjs|cjs|py|jar|rb|php)\b'
 
 Get-CimInstance Win32_Process |
     Where-Object {
