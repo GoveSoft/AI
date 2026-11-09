@@ -13,10 +13,11 @@ Hodnocení: pravděpodobnost (P) a dopad (D) 1–3, skóre = P × D. Revize čtv
 | R7 | Ztráta know-how – vývojář nerozumí kódu, který odevzdal | 2 | 2 | 4 | Odpovědnost za commit u člověka, review PR | [ai-policy.md](ai-policy.md) | <!-- --> |
 | R8 | Závislost na jednom poskytovateli AI | 2 | 2 | 4 | Standardy v obecném Markdownu, použitelné i v jiných nástrojích | <!-- doplnit plán B --> | <!-- --> |
 | R9 | Porušení licence nebo smlouvy s klientem | 1 | 3 | 3 | Pravidla pro klientské projekty | [ai-policy.md](ai-policy.md) | <!-- --> |
-| R10 | Soukromé účty mimo správu firmy: nevhodné nastavení dat, nemožnost odebrat přístup při odchodu | 2 | 3 | 6 | Povinné nastavení (trénování vypnuté, 2FA), prohlášení uživatele, klientský kód jen se souhlasem, technická opatření proti čtení secrets, cílově firemní plán | [ai-policy.md](ai-policy.md#soukromé-účty), [account-attestation.md](account-attestation.md) | <!-- --> |
+| R10 | Používání neschválených AI nástrojů nebo soukromých účtů mimo správu firmy: nejasné zpracování dat, porušení podmínek poskytovatele, nemožnost odebrat přístup při odchodu | 2 | 3 | 6 | Jen schválené nástroje s firemním účtem, společná kritéria schválení, prohlášení uživatele, technická opatření proti čtení secrets | [ai-policy.md](ai-policy.md#podmínky-pro-ai-nástroje), [account-attestation.md](account-attestation.md) | <!-- --> |
 
 ## Historie
 
 | Datum | Změna |
 |---|---|
 | 2026-10 | Výchozí návrh registru; R10 po rozhodnutí povolit soukromé účty ([ADR 0002](../evidence/decisions/0002-soukrome-ucty-za-podminek.md)) |
+| 2026-11 | R10 změněno na neschválené nástroje a účty po přechodu na firemní účty ([ADR 0003](../evidence/decisions/0003-firemni-ucty-a-kriteria-ai-nastroju.md)) |

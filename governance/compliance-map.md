@@ -7,7 +7,7 @@ Tabulka ukazuje, kde v repozitáři je doklad k požadavku. Nejde o prohlášen�
 | Opatření | Doklad |
 |---|---|
 | A.5.12 Klasifikace informací | [data-handling.md](data-handling.md) |
-| A.5.23 Bezpečnost cloudových služeb | [ai-policy.md](ai-policy.md) – schválené nástroje a podmínky pro soukromé účty, [account-attestation.md](account-attestation.md) |
+| A.5.23 Bezpečnost cloudových služeb | [ai-policy.md](ai-policy.md) – schválené nástroje a podmínky pro AI nástroje, [account-attestation.md](account-attestation.md) |
 | A.6.3 Povědomí a školení | [onboarding.md](../workflows/onboarding.md), [account-attestation.md](account-attestation.md) |
 | A.8.25 Bezpečný životní cyklus vývoje | [agentic-dev-loop.md](../workflows/agentic-dev-loop.md), [human-in-the-loop.md](human-in-the-loop.md) |
 | A.8.28 Bezpečné programování | [standards/backend/security](../standards/backend/security/index.md), [standards/general/nasa](../standards/general/nasa/index.md) |

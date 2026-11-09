@@ -8,32 +8,36 @@ Politika platí pro všechny zaměstnance a dodavatele GoveSoft, kteří při v�
 
 ## Schválené nástroje
 
-| Nástroj | Použití | Podmínky |
-|---|---|---|
-| Claude a Claude Code s pluginem [govesoft](../plugin/) – firemní plán (Team/Enterprise) | vývoj, review, testování | bez dalších podmínek nad rámec této politiky |
-| Claude a Claude Code s pluginem [govesoft](../plugin/) – soukromý účet (Pro/Max) | vývoj, review, testování | jen za podmínek v oddílu [Soukromé účty](#soukromé-účty) |
-| <!-- doplnit --> | | |
+Politika se vztahuje na každý nástroj generativní AI bez ohledu na poskytovatele. Na kódu a datech GoveSoft se smí používat jen nástroj uvedený v tabulce a jen s firemním účtem.
 
-Jiné nástroje jen po schválení <!-- role -->. Žádost obsahuje: účel, kam tečou data, podmínky poskytovatele k trénování na datech.
+| Nástroj | Účet | Použití | Doplňující podmínky |
+|---|---|---|---|
+| Claude a Claude Code | firemní plán Team | vývoj, review, testování | v projektech s agenty plugin [govesoft](../plugin/) |
 
-## Soukromé účty
+Další nástroj se do tabulky přidává pull requestem po schválení <!-- role -->. Žádost obsahuje účel, kam tečou data a jak nástroj splňuje podmínky níže.
 
-Soukromý účet (plán Free, Pro nebo Max zaplacený zaměstnancem nebo firmou na jméno zaměstnance) firma nespravuje: nevidí jeho nastavení, nemůže ho vynutit ani při odchodu zaměstnance odebrat přístup ke konverzacím. Proto platí přísnější podmínky než pro firemní plán.
+## Podmínky pro AI nástroje
 
-1. **Prohlášení před prvním použitím.** Uživatel vyplní [prohlášení uživatele AI](account-attestation.md) a obnovuje ho jednou ročně a při každé změně podmínek poskytovatele.
-2. **Trénování vypnuté.** V nastavení soukromí účtu je vypnuté použití konverzací pro trénování modelů. U spotřebitelských plánů Anthropicu je to volba uživatele a určuje i dobu uchovávání dat (30 dní při vypnutí, 5 let při zapnutí) – viz [data-handling.md](data-handling.md#nastavení-účtů).
-3. **Zabezpečený přístup.** Účet, přes který se uživatel do Claude přihlašuje (e-mail nebo Google), má zapnuté dvoufaktorové ověření.
-4. **Klientský kód jen se souhlasem klienta,** který výslovně připouští zpracování u poskytovatele AI na účtech, které GoveSoft nespravuje. Bez takového souhlasu se na klientském projektu soukromý účet nepoužívá.
-5. **Technická opatření v projektu** podle [data-handling.md](data-handling.md#technická-opatření) jsou povinná, ne doporučená: zákaz čtení souborů se secrets a ochranné hooky.
-6. **Při odchodu ze společnosti** uživatel smaže konverzace obsahující firemní nebo klientský kód a potvrdí to.
+1. **Obchodní podmínky.** Nástroj je používaný na základě smlouvy nebo podmínek, které dovolují komerční použití, a smluvní stranou je GoveSoft.
+2. **Žádné trénování na našich datech.** Poskytovatel na vstupech a výstupech netrénuje, a to podle podmínek nebo nastavení vynuceného správcem.
+3. **Správa účtů firmou.** Firma uživatele přidává a odebírá a při odchodu zaměstnance ukončí přístup.
+4. **Zabezpečené přihlášení.** Jednotné přihlášení nebo dvoufaktorové ověření.
+5. **Známé zpracování dat.** Doba uchovávání a místo zpracování jsou zjištěné a zapsané v [data-handling.md](data-handling.md#účty-a-poskytovatelé).
+6. **Technická opatření** podle [data-handling.md](data-handling.md#technická-opatření) a [lidské brány](human-in-the-loop.md) lze v nástroji dodržet.
+
+Soukromé a spotřebitelské účty se nepoužívají, ani když je platí firma: firma je nespravuje a podmínky poskytovatelů je často omezují na nekomerční použití ([ADR 0003](../evidence/decisions/0003-firemni-ucty-a-kriteria-ai-nastroju.md)).
+
+Každý uživatel před prvním použitím vyplní [prohlášení uživatele AI](account-attestation.md) a obnovuje ho jednou ročně a při podstatné změně této politiky.
 
 ## Dohledatelnost
 
-Postup vzniku změny se dokládá v repozitáři, ne odkazem na konverzaci (ta je u soukromého účtu přístupná jen jejímu majiteli):
+Postup vzniku změny se dokládá v repozitáři, ne odkazem na konverzaci, která nemusí být ostatním přístupná:
 
 - popis pull requestu se shrnutím zadání a klíčových rozhodnutí,
-- u agentních běhů archivovaný stavový soubor (`.claude/runs/<slug>/stav.md`) v [evidence/case-studies](../evidence/case-studies/),
+- u agentních běhů archivovaný záznam běhu (u pluginu `govesoft` soubor `.claude/runs/<slug>/stav.md`) v [evidence/case-studies](../evidence/case-studies/),
 - architektonická rozhodnutí jako ADR.
+
+Commit smí uvádět použitý AI nástroj podpisovým řádkem.
 
 ## Odpovědnost
 
@@ -45,7 +49,7 @@ Postup vzniku změny se dokládá v repozitáři, ne odkazem na konverzaci (ta j
 
 1. Data podle [data-handling.md](data-handling.md) – žádné secrets, osobní údaje ani data klienta bez jeho souhlasu.
 2. Lidské brány podle [human-in-the-loop.md](human-in-the-loop.md) se neobcházejí. Vypnutí hooku v projektu musí být zdůvodněné v profilu projektu.
-3. Projekt používající agenty má `CLAUDE.md`, profil `.claude/agentic/profil.md` a konfiguraci hooků.
+3. Projekt používající agenty má popsaná pravidla pro daný nástroj. U Claude Code jsou to `CLAUDE.md`, profil `.claude/agentic/profil.md` a konfigurace hooků.
 4. Kód podléhající licenci třetích stran nevkládat do promptů v rozporu s licencí; výstup AI, který zjevně reprodukuje cizí kód, nepoužít.
 
 ## Zakázané použití
@@ -56,7 +60,7 @@ Postup vzniku změny se dokládá v repozitáři, ne odkazem na konverzaci (ta j
 
 ## Klientské projekty
 
-Použití AI na projektu klienta se řídí smlouvou. Výchozí stav: <!-- doplnit: informujeme klienta / vyžadujeme souhlas -->. Použití soukromých účtů vyžaduje vždy výslovný souhlas klienta (viz [Soukromé účty](#soukromé-účty)). Na vyžádání klientovi předáme tento repozitář jako popis procesu.
+Použití AI na projektu klienta musí dovolovat smlouva nebo písemný souhlas klienta. Bez toho se na projektu AI nepoužívá. Na vyžádání klientovi předáme tento repozitář jako popis procesu.
 
 ## Školení
 

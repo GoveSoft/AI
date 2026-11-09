@@ -12,7 +12,7 @@ Zdroj dat: stavové soubory běhů `.claude/runs/<slug>/stav.md` (počty kol, es
 | Zásahy hooků | počet zamítnutí podle pravidla | co agenti zkoušejí obejít | sledovat trend |
 | Záchyt reviewer evalu | viz [evals/reviewer](../evals/reviewer/) | kvalita agenta | <!-- --> |
 | Pokrytí onboardingem | proškolení / uživatelé AI nástrojů | AI gramotnost | 100 % |
-| Platná prohlášení | uživatelé s platným [prohlášením](../governance/account-attestation.md) / uživatelé AI nástrojů | kontrola soukromých účtů | 100 % |
+| Platná prohlášení | uživatelé s platným [prohlášením](../governance/account-attestation.md) / uživatelé AI nástrojů | potvrzení pravidel uživateli | 100 % |
 
 ## Hodnoty
 

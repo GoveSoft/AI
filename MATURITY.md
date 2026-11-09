@@ -27,15 +27,15 @@ Model hodnotí šest oblastí na stupnici 1–5. Každá úroveň má ověřitel
 
 <!-- Aktualizovat jednou za čtvrtletí. Úroveň uznat jen s doklademi; chybějící doklad = nižší úroveň. -->
 
-Datum: 2026-10 · Hodnotil: <jméno>
+Datum: 2026-11 · Stav: návrh, čeká na potvrzení vedením
 
 | Oblast | Úroveň | Doklad | Co chybí k další úrovni |
 |---|---|---|---|
-| Governance | 2 | Pravidla existují implicitně v hoocích a agentech; soukromé účty povolené za podmínek ([ADR 0002](evidence/decisions/0002-soukrome-ucty-za-podminek.md)) | Schválit [ai-policy.md](governance/ai-policy.md) a [data-handling.md](governance/data-handling.md), sebrat [prohlášení uživatelů](governance/account-attestation.md); pro úroveň 4 firemní plán nebo doložená kontrola nastavení soukromých účtů |
+| Governance | 2 | Pravidla existují implicitně v hoocích a agentech; rozhodnutí o firemních účtech a kritériích nástrojů ([ADR 0003](evidence/decisions/0003-firemni-ucty-a-kriteria-ai-nastroju.md)) | Dokončit přechod na Team, posoudit další používané nástroje, schválit [ai-policy.md](governance/ai-policy.md) a [data-handling.md](governance/data-handling.md), sebrat [prohlášení uživatelů](governance/account-attestation.md) |
 | Standardy | 3 | [standards/](standards/) – 26 sad | Doložit import v projektech, reviewer checklisty v profilech |
-| Nástroje | 4 | [plugin/](plugin/), hooky [guard-bash](plugin/hooks/guard-bash.ps1), [guard-write](plugin/hooks/guard-write.ps1), [build-on-stop](plugin/hooks/build-on-stop.ps1) | Evaly agentů v CI ([evals/reviewer](evals/reviewer/)) |
+| Nástroje | 3 | [plugin/](plugin/), hooky [guard-bash](plugin/hooks/guard-bash.ps1), [guard-write](plugin/hooks/guard-write.ps1), [build-on-stop](plugin/hooks/build-on-stop.ps1) | Hook kontroluje jen 2 ze 7 [lidských bran](governance/human-in-the-loop.md) a jen v Claude Code; pro úroveň 4 zapnout ochranu `main` a technicky pokrýt další brány |
 | Proces | 3 | [agentic-dev-loop.md](workflows/agentic-dev-loop.md), [dual-design.md](workflows/dual-design.md) | Sběr dat ze stavových souborů běhů |
 | Lidé | 1 | – | Onboarding a evidence proškolení |
 | Měření | 1 | – | Začít sbírat [metriky](evidence/metrics.md) |
 
-> Návrh výchozího hodnocení vychází jen z obsahu repozitáře. Před zveřejněním ho potvrďte podle skutečného stavu ve firmě.
+> Hodnocení vychází z obsahu repozitáře a nepotvrdil ho externí audit.
