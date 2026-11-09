@@ -63,7 +63,7 @@ Hooky pak zaregistrovat v `~/.claude/settings.json` – stejný obsah jako [hook
 1. [templates/profil.template.md](../templates/profil.template.md) → `.claude/agentic/profil.md` a vyplnit.
 2. [templates/hooks-config.project.example.json](../templates/hooks-config.project.example.json) → `.claude/hooks-config.json` a upravit (port, zakázané příkazy, chráněné cesty, `buildOnStop`).
 3. Do `.gitignore` přidat `/.claude/runs/` a `/.scratch/`.
-4. [templates/claude-settings.project.json](../templates/claude-settings.project.json) → `.claude/settings.json` (zákaz čtení souborů se secrets; povinné pro soukromé účty).
+4. [templates/claude-settings.project.json](../templates/claude-settings.project.json) → `.claude/settings.json` (zákaz čtení souborů se secrets, vypnutí `/feedback`; povinné).
 
 Projektový `.claude/agents/<jméno>.md` přebíjí globálního agenta – projektová specifika proto nepište do kopií agentů, ale do profilu, jinak se firemní opravy nepropíšou.
 

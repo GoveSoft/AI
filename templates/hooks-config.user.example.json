@@ -10,7 +10,7 @@
       "message": "Pouzivej pwsh (PowerShell 7), ne powershell (Windows PowerShell 5.1). Vzdy s -NoProfile -NonInteractive -File."
     },
     {
-      "pattern": "(?<![\\w.\\-/\\\\])git\\s+push(?![\\w.\\-])",
+      "pattern": "(?<![\\w.\\-/\\\\])git(\\s+(-c\\s+(\"[^\"]*\"|'[^']*'|\\S+)|--(git-dir|work-tree|namespace)\\s+(\"[^\"]*\"|'[^']*'|\\S+)|-{1,2}[\\w-]+(=\\S+)?))*\\s+push(?![\\w.\\-])",
       "message": "Push a merge dela jen clovek (governance/human-in-the-loop.md). Zmeny nech commitnute lokalne a napis uzivateli, ze je muze pushnout."
     },
     {
@@ -18,11 +18,11 @@
       "message": "Vypis secrets je zakazany (governance/data-handling.md). Pokud potrebujes vedet, ktere klice existuji, zeptej se uzivatele."
     },
     {
-      "pattern": "(?<![\\w.\\-/\\\\])(cat|type|less|more|bat|Get-Content|gc)\\s+(\\S*[/\\\\])?\\.env(?!\\.example)(\\.[\\w-]+)?(?![\\w.\\-])",
-      "message": "Cteni .env je zakazane (governance/data-handling.md). Sablonu promennych najdes v .env.example."
+      "pattern": "(?<![\\w.\\-/\\\\])(cat|type|less|more|bat|Get-Content|gc|cp|copy|mv|move|Copy-Item|Move-Item|Select-String|sls|base64|xxd|od|strings)\\s[^|;&\\r\\n]*?(?<![\\w.\\-])(\\.env(?!\\.example)(\\.[\\w-]+)?|secrets\\.json|appsettings\\.[\\w.\\-]*local\\.json|[\\w*\\-]+(\\.[\\w*\\-]+)*\\.(pfx|p12|key|pem))(?![\\w.\\-])",
+      "message": "Cteni a kopirovani .env a dalsich souboru se secrets je zakazane (governance/data-handling.md). Sablonu promennych najdes v .env.example."
     },
     {
-      "pattern": "(?<![\\w.\\-/\\\\])printenv(?![\\w.\\-])",
+      "pattern": "(?<![\\w.\\-/\\\\])printenv(?![\\w.\\-])|(?m)(^|[|;&(])\\s*env\\s*($|[|;&>)])|(?<![\\w.\\-/\\\\])(Get-ChildItem|gci|dir|ls)\\s+env:",
       "message": "Vypis promennych prostredi muze obsahovat secrets. Over jen konkretni promennou, ktera neni tajna, nebo se zeptej uzivatele."
     }
   ],

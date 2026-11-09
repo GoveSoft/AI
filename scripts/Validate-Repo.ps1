@@ -4,6 +4,7 @@
 #  2. relativní odkazy v Markdownu vedou na existující soubor
 #  3. agenti, příkazy a skilly mají frontmatter s povinnými poli
 #  4. verze pluginu je semver a má záznam v CHANGELOG.md
+#  5. schválený dokument nemá nevyplněná místa (HTML komentáře)
 
 $ErrorActionPreference = 'Stop'
 $root = Resolve-Path (Join-Path $PSScriptRoot '..')
@@ -26,6 +27,9 @@ Get-ChildItem $root -Recurse -File -Filter *.md -Force |
         $text = Get-Content $file.FullName -Raw -Encoding UTF8
         $text = [regex]::Replace($text, '(?s)```.*?```', '')
         $text = [regex]::Replace($text, '`[^`\n]*`', '')
+        if ($text -match '(?m)^Stav:\s*\*{0,2}schváleno' -and $text -match '<!--') {
+            $errors.Add("Schválený dokument má nevyplněná místa: $(Rel $file.FullName)")
+        }
         foreach ($m in [regex]::Matches($text, '\]\(([^)\s]+)\)')) {
             $target = $m.Groups[1].Value
             if ($target -match '^(https?:|mailto:|#)') { continue }

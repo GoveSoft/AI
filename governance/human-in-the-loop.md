@@ -10,7 +10,7 @@ AI připravuje, člověk rozhoduje. Tabulka uvádí každé místo, kde agentní
 | 4 | Vytvoření a spuštění DB migrace | vývojář | **hook**: `guard-bash` zamítá `dotnet ef migrations add/remove`, `database update/drop`; `guard-write` chrání `/Migrations/` | [hooks-config.project.example.json](../templates/hooks-config.project.example.json) |
 | 5 | Pokračování po 3 neúspěšných kolech | vývojář | instrukce: manažer se zastaví a čeká | [manager.md](../plugin/commands/manager.md), Ochrana proti zacyklení |
 | 6 | Zápis poučení do profilu projektu | vývojář | instrukce: zápis až po souhlasu | [manager.md](../plugin/commands/manager.md), Konec |
-| 7 | Push a merge | vývojář + reviewer PR | **hook**: `guard-bash` zamítá `git push` (uživatelská konfigurace); merge chrání branch protection | [hooks-config.user.example.json](../templates/hooks-config.user.example.json) |
+| 7 | Push a merge | vývojář + reviewer PR | **hook**: `guard-bash` zamítá `git push` (uživatelská konfigurace); merge chrání branch protection, pokud je na GitHubu zapnutá | [hooks-config.user.example.json](../templates/hooks-config.user.example.json) |
 
 ## Rozsah technických kontrol
 
@@ -20,6 +20,15 @@ AI připravuje, člověk rozhoduje. Tabulka uvádí každé místo, kde agentní
 - `allowPatterns` mohou povolit i jinak zakázaný příkaz. Výjimky a vypnutá pravidla vyžadují zdůvodnění v profilu projektu.
 - Ochranu větví je nutné nastavit a ověřit na GitHubu. Soubor `CODEOWNERS` sám nezajišťuje povinné schválení změny.
 - Hooky jsou další vrstvou kontroly. Omezení přístupu k produkci, oprávnění účtů, lidské review a CI se nastavují samostatně.
+
+## Jiné AI nástroje
+
+Brány platí pro každý AI nástroj. Zajištění v tabulce výše popisuje Claude Code s pluginem `govesoft`; hooky ani definice agentů jiné nástroje nekontrolují. U jiného nástroje proto platí:
+
+- Plán, výběr návrhu, grafiku a pokračování po neúspěších schvaluje člověk před dalším krokem.
+- Migrace, push, merge a přístup k produkci provádí člověk. Agentní režim nástroje je smí provést, jen když je nástroj předem blokuje nebo vyžaduje potvrzení člověkem.
+- Změna prochází stejným pull requestem, review a CI jako každá jiná změna.
+- U Codexu blokují `git push` a EF migrace [pravidla](https://learn.chatgpt.com/docs/agent-configuration/rules) `prefix_rule` s `decision = "forbidden"`. Pravidla jsou experimentální a složitější příkazy nerozkládají, proto hlavní pojistkou zůstává ochrana větve na GitHubu.
 
 ## Nezávislé ověření
 

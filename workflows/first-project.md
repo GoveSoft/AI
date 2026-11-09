@@ -108,7 +108,7 @@ Do `.gitignore` přidejte obsah [templates/gitignore.snippet](../templates/gitig
 
 ### 4b. Zákaz čtení secrets
 
-[templates/claude-settings.project.json](../templates/claude-settings.project.json) → `.claude/settings.json` projektu (commitovat, platí pro celý tým). Zakazuje Claude Code číst `.env`, `secrets.json`, lokální `appsettings.*.local.json`, certifikáty a klíče a úložiště User Secrets. Seznam doplňte o další soubory se secrets, které projekt má. Pro soukromé účty povinné ([data-handling.md](../governance/data-handling.md#technická-opatření)).
+[templates/claude-settings.project.json](../templates/claude-settings.project.json) → `.claude/settings.json` projektu (commitovat, platí pro celý tým). Zakazuje Claude Code číst `.env`, `secrets.json`, lokální `appsettings.*.local.json`, certifikáty a klíče a úložiště User Secrets. Seznam doplňte o další soubory se secrets, které projekt má. Nastavení je povinné ([data-handling.md](../governance/data-handling.md#technická-opatření)).
 
 Ověření: pokyn „Přečti soubor .env“ musí Claude odmítnout s odkazem na nastavení oprávnění.
 

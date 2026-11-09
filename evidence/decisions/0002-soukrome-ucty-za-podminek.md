@@ -1,6 +1,6 @@
 # 0002: Soukromé účty Claude povolené za přísnějších podmínek
 
-Stav: přijato · Datum: 2026-10-26 · Rozhodl: Milan Chvojka
+Stav: nahrazeno [ADR 0003](0003-firemni-ucty-a-kriteria-ai-nastroju.md) · Datum: 2026-10-26 · Rozhodl: Milan Chvojka
 
 ## Kontext
 

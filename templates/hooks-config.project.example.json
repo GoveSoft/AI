@@ -5,7 +5,7 @@
 
   "denyCommands": [
     {
-      "pattern": "dotnet\\s+ef\\s+(migrations\\s+(add|remove)|database\\s+(update|drop))",
+      "pattern": "(?<![\\w.\\-/\\\\])(dotnet\\s+ef|dotnet-ef)(?![\\w.\\-])[^|;&\\r\\n]*\\b(migrations\\s+(add|remove)|database\\s+(update|drop))",
       "message": "EF migrace vytvari a spousti jen uzivatel. Uprav model a napis uzivateli, ze migraci musi vytvorit sam."
     }
   ],

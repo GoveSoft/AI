@@ -31,7 +31,7 @@ Pak v projektu: vyplnit profil a konfiguraci hooků podle [plugin/README.md](plu
 
 ## Aktuální stav
 
-Repozitář obsahuje implementované hooky s automatickými testy, definice agentů, standardy a pracovní postupy. Dokumenty governance jsou návrhy ke schválení; sebehodnocení v [MATURITY.md](MATURITY.md) je výchozí návrh. [Metriky](evidence/metrics.md) a případové studie zatím nemají vyplněné výsledky, proto repozitář sám nedokládá úsporu času ani pokles chybovosti.
+Repozitář obsahuje implementované hooky s automatickými testy, definice agentů, standardy a pracovní postupy. Governance a postupy platí pro všechny schválené AI nástroje; plugin a hooky jsou jejich implementací pro Claude Code. Dokumenty governance jsou návrhy ke schválení; sebehodnocení v [MATURITY.md](MATURITY.md) je výchozí návrh. [Metriky](evidence/metrics.md) a případové studie zatím nemají vyplněné výsledky, proto repozitář sám nedokládá úsporu času ani pokles chybovosti.
 
 ## Principy
 
