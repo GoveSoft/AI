@@ -28,6 +28,7 @@ Brány platí pro každý AI nástroj. Zajištění v tabulce výše popisuje Cl
 - Plán, výběr návrhu, grafiku a pokračování po neúspěších schvaluje člověk před dalším krokem.
 - Migrace, push, merge a přístup k produkci provádí člověk. Agentní režim nástroje je smí provést, jen když je nástroj předem blokuje nebo vyžaduje potvrzení člověkem.
 - Změna prochází stejným pull requestem, review a CI jako každá jiná změna.
+- U Codexu blokují `git push` a EF migrace [pravidla](https://learn.chatgpt.com/docs/agent-configuration/rules) `prefix_rule` s `decision = "forbidden"`. Pravidla jsou experimentální a složitější příkazy nerozkládají, proto hlavní pojistkou zůstává ochrana větve na GitHubu.
 
 ## Nezávislé ověření
 

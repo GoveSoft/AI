@@ -7,6 +7,7 @@ Formát podle [Keep a Changelog](https://keepachangelog.com/cs/1.1.0/), verze pl
 ### Změněno
 
 - Na kódu a datech GoveSoft se používají jen schválené AI nástroje s firemním účtem, pro Claude plán Team ([ADR 0003](evidence/decisions/0003-firemni-ucty-a-kriteria-ai-nastroju.md), nahrazuje ADR 0002). Politika, pravidla pro data, lidské brány a prohlášení uživatele platí obecně pro všechny AI nástroje.
+- Codex na plánu ChatGPT Business je zapsaný jako podmíněně schválený nástroj s popsanými omezeními.
 - Riziko R10 se týká neschválených nástrojů a účtů. Sebehodnocení oblasti Nástroje sníženo na úroveň 3.
 - Šablona nastavení Claude Code vypíná `/feedback` a dotazníky kvality relace.
 

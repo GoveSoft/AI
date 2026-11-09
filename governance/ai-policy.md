@@ -13,6 +13,7 @@ Politika se vztahuje na každý nástroj generativní AI bez ohledu na poskytova
 | Nástroj | Účet | Použití | Doplňující podmínky |
 |---|---|---|---|
 | Claude a Claude Code | firemní plán Team | vývoj, review, testování | v projektech s agenty plugin [govesoft](../plugin/) |
+| Codex | firemní plán ChatGPT Business | vývoj, review, testování | schválení platí až po ověření doby uchovávání dat a omezení podle [data-handling.md](data-handling.md#účty-a-poskytovatelé) |
 
 Další nástroj se do tabulky přidává pull requestem po schválení <!-- role -->. Žádost obsahuje účel, kam tečou data a jak nástroj splňuje podmínky níže.
 

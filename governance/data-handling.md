@@ -34,11 +34,18 @@ Na kódu a datech GoveSoft se používají jen firemní účty ([podmínky](ai-p
 | Nástroj a účet | Trénování na datech | Uchovávání u poskytovatele | Ověřeno | Zdroj |
 |---|---|---|---|---|
 | Claude Code, plán Team | ne (obchodní podmínky) | standardně 30 dní | 2026-11-09 | [Data usage](https://code.claude.com/docs/en/data-usage) |
+| Codex, plán ChatGPT Business | ne ve výchozím stavu | neověřeno, zjistit v administraci nebo smlouvě před schválením | 2026-11-09 | [Plány Codexu](https://learn.chatgpt.com/docs/pricing) |
 
 Výjimky u Claude Code, se kterými je nutné počítat:
 
 - Přepisy odeslané příkazy `/feedback`, `/bug` a `/share` se uchovávají 5 let. Přepis sdílený po dotazníku kvality relace až 6 měsíců.
 - Claude Code ukládá přepisy relací lokálně jako prostý text do `~/.claude/projects/`, standardně na 30 dní.
+
+Implementace pro Codex (při nastavení projektu vyzkoušet, že omezení opravdu platí, protože chování se může lišit mezi CLI a aplikací):
+
+- [Profil oprávnění](https://developers.openai.com/codex/permissions) zakazuje hodnotou `deny` čtení stejných souborů jako šablona pro Claude Code.
+- Přístup k síti zůstává vypnutý a režim `danger-full-access` se nepoužívá.
+- Žádosti o schválení posuzuje člověk (`approvals_reviewer = "user"`).
 
 ## Co dělat při chybě
 
